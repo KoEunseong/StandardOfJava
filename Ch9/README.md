@@ -142,6 +142,80 @@ public class CardToString{
 위 예제처럼 오버라이딩해서 일반적으로 인스턴스나 클래스에 대한 정보 또는 인스턴스 변수들의 값을 문자열로 반환하도록 오버라이딩 되는것이 보통이다.
 Object 클래스에 정의된 toString접근제어자가 public 이므로 Card클래스의 toString의 접근제어자도 public으로 했다는 것을 눈 여겨 보자. 조상에 정의된 메서드를 자손에서 오버라
 이딩 할 때는 조상의 정의된 접근제어자보다 같거나 더 넓어야 하기 대문이다.<br>
-참고로 String클래스와 Date 클래스의 경우 Date인스턴스가 갖고 있는 날짜와 시간을 문자열로 변환하여 반환하도록 오버라이딩 되어 있다.<br>
+--참고로 String클래스와 Date 클래스의 경우 Date인스턴스가 갖고 있는 날짜와 시간을 문자열로 변환하여 반환하도록 오버라이딩 되어 있다.<br>
 <br>
--`hashCode()`<br>
+
+-`Clone()`<br>
+이 메서드는 자신을 복제하여 새로운 인스턴스를 생성하는 일을 한다. Object 클래스에 정의된 clone()은 단순히 인스턴스변수의 값만 복사하기 때문에 참조타입의 인스턴스 변수가 있
+는 클래스는 완전한 인스턴스 복제가 이루어지지 않는다. 
+```java
+package langEx;
+class Point implements Cloneable{
+	int x,y;
+	Point(int x, int y){
+		this.x = x;
+		this.y = y;
+	}
+	public String toString() {
+		return x + " " + y;
+	}
+	@Override
+	public Object clone() {
+		Object obj = null;
+		try {
+			obj = super.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return obj;
+	}
+}
+public class CloneEx1 {
+	public static void main(String[] args) {
+		Point a = new Point(3, 5);
+		Point copy = (Point) a.clone();
+		System.out.println(a);
+		System.out.println(copy);
+		copy.x = 5;
+		System.out.println(a);
+		System.out.println(copy);
+		
+	}
+}
+```
+clone을 사용하려면 먼저 복제할 클래스가 cloneable인터페이스를 구현해야하고, clone()을 오버라이딩하면서 접근 제어자를 protected에서 public으로 변경한다. 그래야만 상속 관계
+가 없는 다른 클래스에서 clone()을 호출 할 수 있다.
+
+**공변타입 변환**
+```java
+public Point clone() { //반환타입을 Object 타입에서 Point로 변환
+  	Object obj = null;
+	try {
+		obj = super.clone();
+	} catch (CloneNotSupportedException e) {}
+	return (Point)obj; //Ponit타입으로 형변환
+}```
+이기능은 오버라이딩 할 때 조상 메서드의 반환타입을 자손 클래스의 타입으로 변경을 허용하는 것이다.!!! 조상의 타입이 아닌 실제로 반환되는 자손 객체의 타입으로 반환할 수 
+있어서 번거로운 형변환이 줄어든다는 장점이 있다.<br>
+point p = (Point)original.clone();  --------->  Point p = original.clone();
+<br>
+```java
+import java.util.Arrays;
+
+public class CloneEx2 {
+    public static void main(String[] args){
+        int[] arr = {1,2,3,4,5};
+        int[] copy = arr.clone();
+        copy[0] = 6;
+
+        System.out.println(Arrays.toString(arr));
+        System.out.println(Arrays.toString(copy));
+    }
+}
+```
+clone을 이용해서 배열을 복사하는 예제이다. 배열도 객체이기 때문에 Object클래스를 상속받으며 동시에 Cloneable인터페이스와 Serializable인터페이스가 구현되어 있다.
+배열 뿐 아니라 util패키지에 Vector, ArrayList 등등 클래스들이 이러한 방식으로 복제가 가능하다.
+```java
+ArrayList list2 = (ArrayList)list.clone()
+```
+
