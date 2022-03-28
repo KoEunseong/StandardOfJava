@@ -99,14 +99,50 @@ String 클래스도 문자열 값이 같으면 true가 오버라이딩이 구현
 }
 ```
 String클래스는 문자열의 내용이 같으면 동일한 hash코드를 반환하도록 hashCode()메서드가 오버라이딩 되어있다. 반면에 System.identityHashCode(Object x)는 객체의 주소 값으로 해시코드를 생성하기 때문에 모든 객체에 대해 항상 다른 해시코드 값을 반환할 것을 보장한다. 그래서 str1과 str2는 해시코드는 같지만 서로 다른 객체라는 것을 알 수 있다.
-<br>
--`toString() : Object클래스에 정의된 toString()은 아래와 같다.
+<br><br>
+-`toString()` : Object클래스에 정의된 toString()은 아래와 같다.
 ```java
 public String toString(){
   return getClass().getName+"@"+Integer.toHexString(hashCode());
 }
 ```
-즉 toString을 호출하면 쿨래스 이름에 16진수의 해시코드를 얻게된다.
+즉 toString을 호출하면 쿨래스 이름에 16진수의 해시코드를 얻게된다.<br>
+```java
+package langPackage;
+class Card2 {
+    String kind;
+    int number;
+
+    Card2() {
+        this("SPADE", 1);
+    }
+
+    Card2(String kind, int number) {
+        this.kind = kind;
+        this.number = number;
+    }
+    @Override
+    public String toString() {
+        // Card인스턴스의 kind와 number를 문자열로 반환한다.
+        return "kind : " + kind + ", number : " + number;
+    }
+}
+
+public class CardToString{
+    public static void main(String[] args) {
+        Card2 c1 = new Card2();
+        Card2 c2 = new Card2("HEART", 10);
+        //System.out.println(c1.toString());
+        System.out.println(c1);
+        System.out.println(c2.toString());
+    }
+}
+```
+<br>
+위 예제처럼 오버라이딩해서 일반적으로 인스턴스나 클래스에 대한 정보 또는 인스턴스 변수들의 값을 문자열로 반환하도록 오버라이딩 되는것이 보통이다.
+Object 클래스에 정의된 toString접근제어자가 public 이므로 Card클래스의 toString의 접근제어자도 public으로 했다는 것을 눈 여겨 보자. 조상에 정의된 메서드를 자손에서 오버라
+이딩 할 때는 조상의 정의된 접근제어자보다 같거나 더 넓어야 하기 대문이다.<br>
+-참고로 String클래스와 Date 클래스의 경우 Date인스턴스가 갖고 있는 날짜와 시간을 문자열로 변환하여 반환하도록 오버라이딩 되어 있다.<br>
 
   
   
