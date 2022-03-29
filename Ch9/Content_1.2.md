@@ -73,7 +73,7 @@ getByte(String charsetName)을 사용하면 문자열의 문자 인코딩을 다
 byte[] b = "가".getBytes("UTF-8"); //문자열을 UTF-8로 변환
 String s = new String(b,"UTF-8"); //byte배열을 문자열로 변환
 ```
-**String.format()**
+**String.format()**:
 printf()와 사용법이 유사  
 **기본형 값 -> Strinig , String -> 기본형 값**
 ```java
