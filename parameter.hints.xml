@@ -1,7 +1,8 @@
 <application>
   <component name="ParameterNameHintsSettings">
-    <disabledLanguages>
-      <language id="JAVA" />
-    </disabledLanguages>
+    <option id="java.multiple.params.same.type" value="true" />
+    <option id="java.simple.sequentially.numbered" value="true" />
+    <option id="java.clear.expression.type" value="true" />
+    <option id="java.method.name.contains.parameter.name" value="true" />
   </component>
 </application>
