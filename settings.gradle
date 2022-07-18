@@ -1,0 +1,4 @@
+rootProject.name = 'StandardOfJava'
+include 'src:main:Chapter11'
+findProject(':src:main:Chapter11')?.name = 'Chapter11'
+
